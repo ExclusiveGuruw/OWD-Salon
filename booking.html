@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book | Owd Salon</title>
+<link rel="stylesheet" href="pages.css">
+</head>
+<body>
+<div id="pageLoader" class="page-loader">
+    <div class="loader-brand">Owd Salon</div>
+    <div class="loader-ring" aria-label="Loading"></div>
+</div>
+<header class="navbar">
+    <a href="index.html" class="logo">Owd Salon</a>
+    <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="booking.html" class="active">Book</a>
+        <a href="contact.html">Contact</a>
+        <a href="about.html">About Us</a>
+        <button id="logoutButton" class="nav-button hidden">Logout</button>
+    </nav>
+</header>
+<main>
+    <section class="page-hero">
+        <p class="small-title">RESERVATIONS</p>
+        <h1>Book your salon visit</h1>
+        <p>Choose your service, preferred date and time.</p>
+    </section>
+    <section class="section">
+        <div class="booking-layout">
+            <div class="booking-info">
+                <h2>A little time for yourself.</h2>
+                <p>Tell us when you would like to visit Owd Salon. Your appointment request will be saved for the salon team.</p>
+                <div id="bookingNotice" class="notice" hidden></div>
+            </div>
+            <form id="bookingForm" class="booking-form">
+                <div class="form-group"><label for="bookingName">Full Name</label><input type="text" id="bookingName" placeholder="Enter your full name" required></div>
+                <div class="form-group"><label for="serviceSelect">Service</label><select id="serviceSelect" required>
+                    <option value="">Select a service</option>
+                    <option value="Haircut & Blow-Dry">Haircut &amp; Blow Dry â€” â‚±650</option>
+                    <option value="Hair Color">Hair Color â€” â‚±1,800</option>
+                    <option value="Balayage">Balayage â€” â‚±3,200</option>
+                    <option value="Hair Treatment">Hair Treatment â€” â‚±950</option>
+                    <option value="Gel Manicure">Gel Manicure â€” â‚±700</option>
+                    <option value="Gel Pedicure">Gel Pedicure â€” â‚±850</option>
+                    <option value="Brow Shaping">Brow Shaping â€” â‚±350</option>
+                    <option value="Basic Facial">Basic Facial â€” â‚±1,200</option>
+                    <option value="Blow-Dry & Style">Blow Dry &amp; Style â€” â‚±500</option>
+                </select></div>
+                <div class="form-group"><label for="bookingDate">Appointment Date</label><input type="date" id="bookingDate" required></div>
+                <div class="form-group"><label for="bookingTime">Preferred Time</label><input type="time" id="bookingTime" required></div>
+                <button type="submit" class="primary-button">Confirm Booking</button>
+            </form>
+        </div>
+    </section>
+</main>
+<footer>Â© 2026 Owd Salon<br>Beauty made personal.</footer>
+<script src="booking.js" defer></script>
+<script src="account.js" defer></script>
+<script src="loader.js" defer></script>
+</body>
+</html>
+
