@@ -321,16 +321,22 @@ document
 
         closeLogin();
 
+        if(user.role === "admin"){
+
+            window.location.href = "admin.html";
+
+            return;
+
+        }
+
         updateUI();
 
-        const targetSection =
-            user.role === "admin" ?
-            document.getElementById("adminSection") :
+        const homeSection =
             document.getElementById("home");
 
-        if(targetSection){
+        if(homeSection){
 
-            targetSection.scrollIntoView({
+            homeSection.scrollIntoView({
                 behavior:"smooth"
             });
 
