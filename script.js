@@ -321,6 +321,14 @@ document
 
         closeLogin();
 
+        if(user.role === "admin"){
+
+            window.location.href = "admin.html";
+
+            return;
+
+        }
+
         updateUI();
 
         const homeSection =
