@@ -321,22 +321,16 @@ document
 
         closeLogin();
 
-        if(user.role === "admin"){
-
-            window.location.href = "admin.html";
-
-            return;
-
-        }
-
         updateUI();
 
-        const homeSection =
+        const targetSection =
+            user.role === "admin" ?
+            document.getElementById("adminSection") :
             document.getElementById("home");
 
-        if(homeSection){
+        if(targetSection){
 
-            homeSection.scrollIntoView({
+            targetSection.scrollIntoView({
                 behavior:"smooth"
             });
 
@@ -969,29 +963,6 @@ function updateUI(){
     );
 
 
-    const allSections =
-        document.querySelectorAll(
-            "section"
-        );
-
-
-    allSections.forEach(
-        function(section){
-
-            if(section.id === "adminSection"){
-
-                return;
-
-            }
-
-            section.classList.remove(
-                "hidden"
-            );
-
-        }
-    );
-
-
     if(user){
 
         accountButton.classList.add(
@@ -1032,21 +1003,11 @@ function updateUI(){
 
     }else if(user && user.role === "admin"){
 
-        allSections.forEach(
-            function(section){
-
-                if(section.id !== "adminSection"){
-
-                    section.classList.add(
-                        "hidden"
-                    );
-
-                }
-
-            }
+        adminSection.classList.remove(
+            "hidden"
         );
 
-        adminSection.classList.remove(
+        accountSection.classList.add(
             "hidden"
         );
 
