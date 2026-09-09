@@ -639,127 +639,6 @@ function renderBuyerBookings(){
 }
 
 
-function renderAdminOverview(){
-
-    const user =
-        getCurrentUser();
-
-    if(!user || user.role !== "admin"){
-
-        return;
-
-    }
-
-    const bookings =
-        getBookings();
-
-    const pendingCount =
-        bookings.filter(
-            function(booking){
-
-                return booking.status === "Pending";
-
-            }
-        ).length;
-
-    const confirmedCount =
-        bookings.filter(
-            function(booking){
-
-                return booking.status === "Confirmed";
-
-            }
-        ).length;
-
-    const completedCount =
-        bookings.filter(
-            function(booking){
-
-                return booking.status === "Completed";
-
-            }
-        ).length;
-
-    const adminOverview =
-        document.getElementById("adminOverview");
-
-    if(!adminOverview){
-
-        return;
-
-    }
-
-    adminOverview.innerHTML = `
-
-        <div class="user-card">
-
-            <p class="small-title">
-                ADMIN ACCOUNT
-            </p>
-
-            <h3>
-                Welcome, ${user.name}
-            </h3>
-
-            <p>
-                ${user.email}
-            </p>
-
-        </div>
-
-        <div class="user-card">
-
-            <h3>
-                ${bookings.length}
-            </h3>
-
-            <p>
-                Total bookings
-            </p>
-
-        </div>
-
-        <div class="user-card">
-
-            <h3>
-                ${pendingCount}
-            </h3>
-
-            <p>
-                Pending
-            </p>
-
-        </div>
-
-        <div class="user-card">
-
-            <h3>
-                ${confirmedCount}
-            </h3>
-
-            <p>
-                Confirmed
-            </p>
-
-        </div>
-
-        <div class="user-card">
-
-            <h3>
-                ${completedCount}
-            </h3>
-
-            <p>
-                Completed
-            </p>
-
-        </div>
-
-    `;
-
-}
-
-
 function renderAdminBookings(){
 
     const user =
@@ -1016,8 +895,6 @@ function updateUI(){
         accountSection.classList.add(
             "hidden"
         );
-
-        renderAdminOverview();
 
         renderAdminBookings();
 
