@@ -321,7 +321,18 @@ document
 
         closeLogin();
 
-        window.location.href = "index.html#home";
+        updateUI();
+
+        const homeSection =
+            document.getElementById("home");
+
+        if(homeSection){
+
+            homeSection.scrollIntoView({
+                behavior:"smooth"
+            });
+
+        }
 
     }
 );
