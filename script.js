@@ -961,6 +961,29 @@ function updateUI(){
     );
 
 
+    const allSections =
+        document.querySelectorAll(
+            "section"
+        );
+
+
+    allSections.forEach(
+        function(section){
+
+            if(section.id === "adminSection"){
+
+                return;
+
+            }
+
+            section.classList.remove(
+                "hidden"
+            );
+
+        }
+    );
+
+
     if(user){
 
         accountButton.classList.add(
@@ -1001,11 +1024,21 @@ function updateUI(){
 
     }else if(user && user.role === "admin"){
 
-        adminSection.classList.remove(
-            "hidden"
+        allSections.forEach(
+            function(section){
+
+                if(section.id !== "adminSection"){
+
+                    section.classList.add(
+                        "hidden"
+                    );
+
+                }
+
+            }
         );
 
-        accountSection.classList.add(
+        adminSection.classList.remove(
             "hidden"
         );
 
