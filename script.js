@@ -549,28 +549,152 @@ function renderBuyerBookings(){
                 return booking.email === user.email;
 
             }
+        )
+        .sort(
+            function(a, b){
+
+                return b.id - a.id;
+
+            }
         );
+
+    const totalBookings =
+        bookings.length;
+
+    const upcomingBookings =
+        bookings.filter(
+            function(booking){
+
+                return (
+                    booking.status !== "Completed" &&
+                    booking.status !== "Cancelled"
+                );
+
+            }
+        ).length;
+
+    const completedBookings =
+        bookings.filter(
+            function(booking){
+
+                return booking.status === "Completed";
+
+            }
+        ).length;
+
+    const cancelledBookings =
+        bookings.filter(
+            function(booking){
+
+                return booking.status === "Cancelled";
+
+            }
+        ).length;
 
 
     document
     .getElementById("userCard")
     .innerHTML = `
 
-        <p class="small-title">
-            BUYER ACCOUNT
-        </p>
+        <div class="account-dashboard">
 
-        <h3>
-            Welcome, ${user.name}
-        </h3>
+            <div class="profile-card">
 
-        <p>
-            ${user.email}
-        </p>
+                <div class="profile-badge">
+                    ${user.name.charAt(0).toUpperCase()}
+                </div>
 
-        <p>
-            You have ${bookings.length} appointment${bookings.length === 1 ? "" : "s"} on file.
-        </p>
+                <div class="profile-meta">
+
+                    <p class="small-title">
+                        BUYER ACCOUNT
+                    </p>
+
+                    <h3>
+                        ${user.name}
+                    </h3>
+
+                    <p class="profile-email">
+                        ${user.email}
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="account-actions">
+
+                <a
+                    href="booking.html"
+                    class="primary-button small-button"
+                >
+                    Book an Appointment
+                </a>
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    onclick="logoutUser(); updateUI(); window.scrollTo({top:0, behavior:'smooth'});"
+                >
+                    Logout
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+            <div class="summary-tile">
+
+                <span class="summary-label">
+                    Total Bookings
+                </span>
+
+                <strong>
+                    ${totalBookings}
+                </strong>
+
+            </div>
+
+            <div class="summary-tile">
+
+                <span class="summary-label">
+                    Upcoming
+                </span>
+
+                <strong>
+                    ${upcomingBookings}
+                </strong>
+
+            </div>
+
+            <div class="summary-tile">
+
+                <span class="summary-label">
+                    Completed
+                </span>
+
+                <strong>
+                    ${completedBookings}
+                </strong>
+
+            </div>
+
+            <div class="summary-tile">
+
+                <span class="summary-label">
+                    Cancelled
+                </span>
+
+                <strong>
+                    ${cancelledBookings}
+                </strong>
+
+            </div>
+
+        </div>
 
     `;
 
@@ -585,11 +709,30 @@ function renderBuyerBookings(){
 
         container.innerHTML = `
 
-            <div class="user-card">
+            <div class="booking-dashboard empty-state-card">
 
-                <p>
-                    You don't have any appointments yet.
-                </p>
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ✦
+                    </div>
+
+                    <h3>
+                        No appointments yet
+                    </h3>
+
+                    <p>
+                        Your salon bookings will appear here once you reserve a service.
+                    </p>
+
+                    <a
+                        href="booking.html"
+                        class="primary-button"
+                    >
+                        Book an Appointment
+                    </a>
+
+                </div>
 
             </div>
 
@@ -600,44 +743,91 @@ function renderBuyerBookings(){
     }
 
 
-    container.innerHTML =
-        bookings
-        .map(
-            function(booking){
+    container.innerHTML = `
 
-                return `
+        <div class="booking-dashboard">
 
-                    <div class="booking-item">
+            <div class="recent-header">
 
-                        <div>
+                <div>
 
-                            <strong>
-                                ${booking.service}
-                            </strong>
+                    <p class="small-title">
+                        RECENT BOOKINGS
+                    </p>
 
-                            <small>
-                                ${booking.date}
-                                at
-                                ${booking.time}
-                            </small>
+                    <h3>
+                        Your appointment history
+                    </h3>
 
-                            <small>
-                                ${money(booking.price)}
-                            </small>
+                </div>
 
-                        </div>
+                <span class="recent-count">
+                    ${totalBookings} total
+                </span>
 
-                        <span class="status">
-                            ${booking.status}
-                        </span>
+            </div>
 
-                    </div>
+            <div class="recent-list">
 
-                `;
+                ${bookings
+                    .map(
+                        function(booking){
 
-            }
-        )
-        .join("");
+                            const statusClass =
+                                (booking.status || "Pending")
+                                .toLowerCase();
+
+                            return `
+
+                                <div class="booking-item">
+
+                                    <div class="booking-main">
+
+                                        <div class="booking-icon">
+                                            ${booking.service.charAt(0)}
+                                        </div>
+
+                                        <div class="booking-copy">
+
+                                            <strong>
+                                                ${booking.service}
+                                            </strong>
+
+                                            <small>
+                                                ${booking.date}
+                                                at
+                                                ${booking.time}
+                                            </small>
+
+                                            <small>
+                                                ${money(booking.price || 0)}
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="booking-side">
+
+                                        <span class="status ${statusClass}">
+                                            ${booking.status || "Pending"}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            `;
+
+                        }
+                    )
+                    .join("")}
+
+            </div>
+
+        </div>
+
+    `;
 
 }
 
