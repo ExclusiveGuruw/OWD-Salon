@@ -124,6 +124,28 @@ function money(amount){
 }
 
 
+function getBookingPrice(booking){
+
+    const directPrice =
+        Number(booking.price);
+
+    if(Number.isFinite(directPrice) && directPrice >= 0){
+
+        return directPrice;
+
+    }
+
+    if(booking.service && prices[booking.service]){
+
+        return prices[booking.service];
+
+    }
+
+    return 0;
+
+}
+
+
 const authModal =
     document.getElementById("authModal");
 
@@ -800,7 +822,7 @@ function renderBuyerBookings(){
                                             </small>
 
                                             <small>
-                                                ${money(booking.price || 0)}
+                                                ${money(getBookingPrice(booking))}
                                             </small>
 
                                         </div>
@@ -899,8 +921,8 @@ function renderAdminBookings(){
 
                             <small>
                                 ${booking.email}
-                                â€¢
-                                ${money(booking.price)}
+                                •
+                                ${money(getBookingPrice(booking))}
                             </small>
 
                         </div>
