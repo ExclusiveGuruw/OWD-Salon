@@ -130,6 +130,26 @@ body.logged-in .nav-links a{
     display:block;
 }
 
+body.logged-in.admin-bookings-only #home,
+body.logged-in.admin-bookings-only #services,
+body.logged-in.admin-bookings-only #booking,
+body.logged-in.admin-bookings-only #contact,
+body.logged-in.admin-bookings-only #accountSection,
+body.logged-in.admin-bookings-only .hero-text,
+body.logged-in.admin-bookings-only .home-about,
+body.logged-in.admin-bookings-only footer{
+    display:none!important;
+}
+
+body.logged-in.admin-bookings-only .hero{
+    display:none!important;
+}
+
+body.logged-in.admin-bookings-only .admin-section{
+    display:block!important;
+    margin-top:0;
+}
+
 .nav-links a[href="booking.html"]{
     display:none!important;
 }
