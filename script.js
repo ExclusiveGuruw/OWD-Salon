@@ -187,9 +187,8 @@ accountButton.addEventListener(
 
         if(user.role === "admin"){
 
-            adminSection.scrollIntoView({
-                behavior:"smooth"
-            });
+            window.location.hash = "#adminSection";
+            updateUI();
 
         }else{
 
@@ -424,99 +423,111 @@ document
 );
 
 
-bookingForm.addEventListener(
-    "submit",
-    function(event){
+if(bookingForm){
 
-        event.preventDefault();
+    bookingForm.addEventListener(
+        "submit",
+        function(event){
 
-        const user =
-            getCurrentUser();
+            event.preventDefault();
 
-        if(!user || user.role !== "buyer"){
+            const user =
+                getCurrentUser();
 
-            bookingNotice.textContent =
-                "Please login using a buyer account before booking.";
+            if(!user || user.role !== "buyer"){
 
-            bookingNotice.classList.remove(
-                "hidden"
-            );
+                if(bookingNotice){
 
-            openLogin();
+                    bookingNotice.textContent =
+                        "Please login using a buyer account before booking.";
 
-            return;
+                    bookingNotice.classList.remove(
+                        "hidden"
+                    );
+
+                }
+
+                openLogin();
+
+                return;
+
+            }
+
+
+            const customer =
+                document
+                .getElementById("bookingName")
+                .value
+                .trim();
+
+            const service =
+                document
+                .getElementById("serviceSelect")
+                .value;
+
+            const date =
+                document
+                .getElementById("bookingDate")
+                .value;
+
+            const time =
+                document
+                .getElementById("bookingTime")
+                .value;
+
+
+            const newBooking = {
+
+                id:Date.now(),
+
+                customer:customer,
+
+                email:user.email,
+
+                service:service,
+
+                price:prices[service],
+
+                date:date,
+
+                time:time,
+
+                status:"Pending"
+
+            };
+
+
+            const bookings =
+                getBookings();
+
+            bookings.push(newBooking);
+
+            saveBookings(bookings);
+
+
+            bookingForm.reset();
+
+
+            if(bookingNotice){
+
+                bookingNotice.textContent =
+                    "Your appointment has been submitted successfully. Status: Pending.";
+
+                bookingNotice.classList.remove(
+                    "hidden"
+                );
+
+            }
+
+
+            renderBuyerBookings();
+
+            renderAdminBookings();
 
         }
+    );
 
-
-        const customer =
-            document
-            .getElementById("bookingName")
-            .value
-            .trim();
-
-        const service =
-            document
-            .getElementById("serviceSelect")
-            .value;
-
-        const date =
-            document
-            .getElementById("bookingDate")
-            .value;
-
-        const time =
-            document
-            .getElementById("bookingTime")
-            .value;
-
-
-        const newBooking = {
-
-            id:Date.now(),
-
-            customer:customer,
-
-            email:user.email,
-
-            service:service,
-
-            price:prices[service],
-
-            date:date,
-
-            time:time,
-
-            status:"Pending"
-
-        };
-
-
-        const bookings =
-            getBookings();
-
-        bookings.push(newBooking);
-
-        saveBookings(bookings);
-
-
-        bookingForm.reset();
-
-
-        bookingNotice.textContent =
-            "Your appointment has been submitted successfully. Status: Pending.";
-
-        bookingNotice.classList.remove(
-            "hidden"
-        );
-
-
-        renderBuyerBookings();
-
-        renderAdminBookings();
-
-    }
-);
+}
 
 
 function renderBuyerBookings(){
@@ -880,15 +891,23 @@ function updateUI(){
 
     }else if(user && user.role === "admin"){
 
-        adminSection.classList.remove(
-            "hidden"
+        const showAdminSection =
+            window.location.hash === "#adminSection";
+
+        adminSection.classList.toggle(
+            "hidden",
+            !showAdminSection
         );
 
         accountSection.classList.add(
             "hidden"
         );
 
-        renderAdminBookings();
+        if(showAdminSection){
+
+            renderAdminBookings();
+
+        }
 
     }else{
 
@@ -910,12 +929,22 @@ const today =
     .toISOString()
     .split("T")[0];
 
-document
-.getElementById("bookingDate")
-.min = today;
+const bookingDateInput =
+    document.getElementById("bookingDate");
+
+if(bookingDateInput){
+
+    bookingDateInput.min = today;
+
+}
 
 
 getUsers();
+
+window.addEventListener(
+    "hashchange",
+    updateUI
+);
 
 updateUI();
 
