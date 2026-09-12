@@ -1040,6 +1040,15 @@ function updateUI(){
         Boolean(user)
     );
 
+    document.body.classList.toggle(
+        "admin-bookings-only",
+        Boolean(
+            user &&
+            user.role === "admin" &&
+            window.location.hash === "#adminSection"
+        )
+    );
+
 
     if(user){
 
@@ -1062,6 +1071,19 @@ function updateUI(){
 
         logoutButton.classList.add(
             "hidden"
+        );
+
+    }
+
+
+    const adminBookingLink =
+        document.getElementById("adminBookingLink");
+
+    if(adminBookingLink){
+
+        adminBookingLink.classList.toggle(
+            "hidden",
+            !user || user.role !== "admin"
         );
 
     }
