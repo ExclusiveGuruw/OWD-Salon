@@ -145,9 +145,6 @@ const accountSection =
 const adminSection =
     document.getElementById("adminSection");
 
-const bookingNavigatorButton =
-    document.getElementById("bookingNavigatorButton");
-
 const bookingForm =
     document.getElementById("bookingForm");
 
@@ -201,26 +198,6 @@ accountButton.addEventListener(
             });
 
         }
-
-    }
-);
-
-
-bookingNavigatorButton.addEventListener(
-    "click",
-    function(){
-
-        if(getCurrentUser() && getCurrentUser().role === "admin"){
-
-            adminSection.scrollIntoView({
-                behavior:"smooth"
-            });
-
-            return;
-
-        }
-
-        openLogin();
 
     }
 );
@@ -883,21 +860,6 @@ function updateUI(){
         );
 
         logoutButton.classList.add(
-            "hidden"
-        );
-
-    }
-
-
-    if(user && user.role === "admin"){
-
-        bookingNavigatorButton.classList.remove(
-            "hidden"
-        );
-
-    }else{
-
-        bookingNavigatorButton.classList.add(
             "hidden"
         );
 
